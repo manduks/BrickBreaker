@@ -8,17 +8,17 @@ Ext.define('MyApp.view.BouncingBall', {
     extend: 'Ext.draw.Component',
     alias: 'widget.bouncingball',
     style: {
-        backgroundImage: "url('resources/images/back.jpeg')"
+        backgroundImage: "url('resources/images/back.jpeg')" // our game backgroung image
     },
     width: 700,
     height: 445,
     ballSize: 30,
     mute: 0,
     colors: ['#D300CD', '#0FCA0B', '#EDAB55', '#2D2DE5', '#610097', '#F7E70E'], // posible brick colors
-    barWidth: 100,
+    barWidth: 150,
 	brickWidth: 50,
 	brickHeight: 20,
-    bricksForm: [
+    bricksForm: [ // this is the layout of our bricks, 1 sets a brick, 0 lives an empty space
         [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
         [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
         [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
@@ -48,7 +48,7 @@ Ext.define('MyApp.view.BouncingBall', {
         me.bar.addListener('mouseover', me.moveBar);
 
     },
-    configureBall: function () {
+    configureBall: function () { // setting the ball 
         var me = this;
         me.ball = new Ext.draw.Sprite({ // we create the ball sprite
             type: 'image',
@@ -57,12 +57,12 @@ Ext.define('MyApp.view.BouncingBall', {
             width: me.ballSize
         });
         me.surface.add(me.ball);
-        me.ball.setAttributes({ // setting the brick attribute
+        me.ball.setAttributes({ // setting the ball attribute
             y: me.height - (30 + me.ballSize),
             x: 90
         }, true);
     },
-    configureBar: function () {
+    configureBar: function () { //set the bouncing ball bar
         var me = this;
         me.bar = new Ext.draw.Sprite({ // we create the ball sprite
             type: 'rect',
@@ -79,7 +79,7 @@ Ext.define('MyApp.view.BouncingBall', {
             x: 90
         }, true);
     },
-    configureBricks: function () {
+    configureBricks: function () { // we set the bricks in our drawing component
         var me = this,
             brick;
         me.bricks = [], colors = me.colors;
@@ -131,6 +131,7 @@ Ext.define('MyApp.view.BouncingBall', {
                     alert('Game Over :(');
                     me.task.stop();
                 }
+				//check when the ball hits a brick
 				if(me.destroyBrick(x,y)){
 					dy = -dy;
 					if (!me.mute) {
@@ -143,12 +144,12 @@ Ext.define('MyApp.view.BouncingBall', {
             interval: 10 // this goes on every 10 milliseconds
         });
     },
-    initMovement: function () {
+    initMovement: function () { //start the game
         var me = this;
         me.task.start(); // start the task
         me.el.unmask();
     },
-    pauseMovement: function () {
+    pauseMovement: function () { //pause the game
         var me = this;
         me.el.mask('Paused ...');
         me.task.stop();
@@ -157,7 +158,7 @@ Ext.define('MyApp.view.BouncingBall', {
         var me = this;
         me.mute = !me.mute;
     },
-    ballHitsBar: function (x, y, me) {
+    ballHitsBar: function (x, y, me) { //check when the ball hits the bar
         var barStart = me.bar.attr.x,
             barEnd = me.bar.attr.x + me.barWidth;
         if (y > me.bar.attr.y - me.ballSize && (x >= barStart && x <= barEnd)) {
@@ -178,7 +179,7 @@ Ext.define('MyApp.view.BouncingBall', {
 	            x: me.bar.attr.x + me.barWidth
 	        }, true);
     },
-	configureKeyNavigation:function(){
+	configureKeyNavigation:function(){ //configute the key navigation
 		var me = this, nav;
 		nav = Ext.create('Ext.util.KeyNav', Ext.getDoc(), {
 	        scope: me,
