@@ -13,7 +13,7 @@ Ext.application({
     launch: function() {
 		var gameSurface = Ext.create('MyApp.view.BouncingBall'); 
      	Ext.create('Ext.Window',{
-			title		: 'Drawing and charting',
+			title		: 'BrickBreaker',
 			frame		: false,
 			resizable	:false,
 			layout		: 'fit',
